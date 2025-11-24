@@ -18,7 +18,7 @@ public class SystemInfoWin {
 
             // Memory
             printMemoryInfo();
-            printRAMInfo(); // Добавлен вызов информации о RAM
+            printRAMInfo(); 
 
             // Processors
             System.out.println("Processors: " + Runtime.getRuntime().availableProcessors());
@@ -60,7 +60,7 @@ public class SystemInfoWin {
             Scanner scanner = new Scanner(process.getInputStream());
             long totalRAM = 0;
 
-            // Пропускаем заголовок
+            
             if (scanner.hasNextLine()) {
                 scanner.nextLine();
             }
@@ -74,7 +74,7 @@ public class SystemInfoWin {
             }
             scanner.close();
 
-            // Конвертируем в гигабайты
+           
             long totalRAMGB = totalRAM / (1024 * 1024 * 1024);
             System.out.println("RAM: " + totalRAMGB + " GB");
 
@@ -103,3 +103,4 @@ public class SystemInfoWin {
         }
     }
 }
+
