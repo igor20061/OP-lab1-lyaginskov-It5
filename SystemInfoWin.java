@@ -1,4 +1,5 @@
 import java.io.File;
+import java.util.Scanner;
 
 public class SystemInfoWin {
 
@@ -17,6 +18,7 @@ public class SystemInfoWin {
 
             // Memory
             printMemoryInfo();
+            printRAMInfo(); // Добавлен вызов информации о RAM
 
             // Processors
             System.out.println("Processors: " + Runtime.getRuntime().availableProcessors());
@@ -49,6 +51,35 @@ public class SystemInfoWin {
 
         } catch (Exception e) {
             System.out.println("Memory info unavailable");
+        }
+    }
+
+    private static void printRAMInfo() {
+        try {
+            Process process = Runtime.getRuntime().exec("wmic memorychip get capacity");
+            Scanner scanner = new Scanner(process.getInputStream());
+            long totalRAM = 0;
+
+            // Пропускаем заголовок
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
+
+            // Суммируем объём всех модулей RAM (в байтах)
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine().trim();
+                if (!line.isEmpty()) {
+                    totalRAM += Long.parseLong(line);
+                }
+            }
+            scanner.close();
+
+            // Конвертируем в гигабайты
+            long totalRAMGB = totalRAM / (1024 * 1024 * 1024);
+            System.out.println("RAM: " + totalRAMGB + " GB");
+
+        } catch (Exception e) {
+            System.out.println("RAM info unavailable");
         }
     }
 
